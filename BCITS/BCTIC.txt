@@ -1,0 +1,655 @@
+1. CREATE TABLE Employee(EmpId int primary key,Name varchar(20) not null,Age int,JoiningDate date);
+To modify the table :
+ALTER TABLE Employee add column Salary int;
+
+
+2.DROP TABLE TempData FROM DATABASE IF EXISTS;
+
+
+3.CREATE TABLE ProductsTable(ProductId int primary key,ProductName varchar(30) not null, Price int); 
+
+4.MODIFY TABLE OldOrders RENAME  TO ArchievedOrders;
+
+5.Create an index on the column Category of a table named Inventory.sql query
+
+6.INSERT INTO Students(StudentId,Nmae,Age,Grade) VALUES(101,"Alice",20,'A');
+
+7.UPDATE TABLE Results SET Grade='B' WHERE Marks < 60;
+
+8.DELETE FROM Orders WHERE Status="Cancelled";
+
+9.SELECT TableA as a FULL JOIN TableB as b ON a.id=b.id;
+UPDATE TABLE TableB set Value;
+INSERT INTO TABLE TableB() VALUES();
+
+10.
+
+LOAD DATA INFILE '/path_to_file/employee.csv'
+INTO TABLE employees
+FIELDS TERMINATED BY ',' 
+ENCLOSED BY '"' 
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
+
+
+11.SELECT name FROM Employee WHERE joining_Date > '2020-01-01';
+
+
+12.SELECT Salary avg(salary) min(salary) max(salary) From Employee;
+
+13.SELECT * FROM Orders WHERE OrderAmount > 1000 AND Status="Delivered";
+
+14.
+SELECT category, SUM(quantity) AS total_products_sold
+FROM sales
+GROUP BY category;
+
+
+15.
+SELECT c.customer_name, o.order_id, o.order_date, o.total_amount
+FROM CUSTOMER c
+JOIN ORDER o ON c.customer_id = o.customer_id;
+
+16.SELECT * FROM customers AS c INNER JOIN Orders as o ON c.id=o.id;
+
+17.SELECT * FROM customers AS c FULL JOIN Orders as o ON c.id=o.id;
+
+18.SELECT name, salary  avg(salary) FROM Employee WHERE salary > avg(salary);
+
+19.
+
+WHERE NOT EXISTS (
+  SELECT 1 FROM orders o
+  JOIN orderDetails od ON o.oId = od.oId
+  JOIN products p ON od.pId = p.pId
+  WHERE p.pName = 'oranges' AND c.cId = o.cId);
+
+
+20.
+SELECT c.customer_name, o.order_id, p.product_name
+FROM CUSTOMERS c
+JOIN ORDERS o ON c.customer_id = o.customer_id
+JOIN ORDER_ITEMS oi ON o.order_id = oi.order_id
+JOIN PRODUCTS p ON oi.product_id = p.product_id;
+
+  
+
+26.ORM refers to object relational mapping where it is used to map the objects into tables in the database.
+ and the provider for orm is hibernate.
+
+The relation between the java appication and database will be held by orm which uses the java persistence api and then the coulnmns of the table are mapped as a objects to do the data transfer.
+
+By using annotations like @Entity of the java persistence api we can connect the table into database.
+So the orm identifies the table which has to connect to the database.
+
+There are many annotations for column of the specific table by which we can accomplish some different scenarios.
+By this it simplifies the connection of java applicatio and database.And we can easily map the data.
+
+
+27.Components of jpa
+
+Java Persistence API (JPA) is a specification in Java for managing relational data in applications using Java objects. Its core components include:
+
+Entity: A lightweight, persistent domain object that represents a table in the database. Each instance corresponds to a row in that table.
+
+EntityManager: The main interface for managing the lifecycle of entities, including creating, reading, updating, and deleting entities.
+
+EntityManagerFactory: Responsible for creating EntityManager instances. It represents a configuration for the persistence unit.
+
+Persistence Unit: A logical grouping of entity classes, configurations, and database settings specified in the persistence.xml file.
+
+Query API: Provides ways to perform queries on entities.
+
+
+28.
+
+a. @OneToOne
+Meaning: A @OneToOne relationship signifies that one entity is associated with exactly one other entity. For example, a user might have a single profile.
+
+Key Points:
+
+Both entities will reference each other.
+
+Often used with a foreign key to connect the entities in the database.
+
+b.@OneToMany
+
+Meaning: A @OneToMany relationship means one entity is connected to multiple other entities. For instance, a department can have many employees.
+
+Key Points:
+
+The “many” side typically references the “one” side using a foreign key.
+
+We often use a List or Set to hold the associated entities in the “one” side.
+
+
+c.@ManyToMany
+
+Meaning: A @ManyToMany relationship is when multiple instances of one entity are associated with multiple instances of another entity. For example, students enrolling in courses where each student can enroll in multiple courses, and each course can have multiple students.
+
+Key Points:
+
+A join table is often used to manage the relationship between entities in the database.
+
+Both sides reference each other using a collection.
+
+d.@EntityTransaction 
+Meaning:
+it is an annotaion in jpa it is used to whenver we create EntityTransactionFactory by using this we are ready to connect the java application to database so after that to map the transaction for the perticular database we need use entitytransaction.
+EntityManager em=entityManagerFactory.createEntityManager();
+EntityTransaction et=em.getTransaction();
+First we have to establish the entity manager then by using entitymnager we should connect that to entityTranstion By using EntityTransaction interface.
+
+e.@Entity
+Meaning:Refers to the Table in which we wants to perform specific actions or to do crud operations.
+Whenever there is annotation called @Entity on the top of the java class in our application it resferes that this is going to the table on which are reffering to do operations.
+
+This specifies how the perticular class and the database table will be mapped using jpa.
+@Entity
+@Table(name="Customers")
+public class Customers{
+
+}
+
+29.JPQL:Java Persistence Query Language is a query language defined in the JPA specification. It is used to interact with entities stored in a relational database through object-oriented queries. JPQL is similar to SQL but operates on entities and their attributes rather than directly on database tables and columns.
+
+30.query to fetch the min price of the product:
+SELECT p
+FROM Product p
+WHERE p.price = (SELECT MIN(p2.price) FROM Product p2)
+
+
+31.code for connecting java application to database using jpa
+@AutoWired
+EntityManagerFactory emf
+EntityManager em=entityManagerFactory.createEntityManager();
+EntityTransaction et=em.getTransaction();
+
+32.code for connecting java application to database using jdbc:
+Load the driver.
+Establish the connection.
+create statement.
+execute it.
+class.forName(com.mySql.jdbc.Driver);
+Connection connection=DriverManager.getConnection("");
+Statement statemnt=connection.createStament();
+int update=statement.executeUpdate();
+
+33.Concepts:
+Polymorphism:It refers to one can act in many forms.
+
+Bundles data (attributes) and methods (functions) that operate on the data into a single unit called an object.
+
+Access to data is restricted using access modifiers (private, protected, public).
+
+Example:
+
+java
+public class Person {
+    private String name; 
+    
+    public String getName() {
+        return name; 
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+Abstraction:
+
+Focuses on essential details while hiding implementation complexity.
+
+Abstract classes and interfaces are used to define common methods without implementing them.
+
+Example:abstract class Shape {
+    abstract void draw(); // Abstract method
+}
+
+class Circle extends Shape {
+    void draw() {
+        System.out.println("Drawing Circle");
+    }
+}
+Inheritance:
+
+Allows a class (child) to inherit properties and behaviors from another class (parent).
+
+Promotes code reuse and extends functionality.
+
+Example:
+
+javaclass Animal {
+    void eat() {
+        System.out.println("This animal eats food.");
+    }
+}
+
+class Dog extends Animal {
+    void bark() {
+        System.out.println("This dog barks.");
+    }
+}
+Polymorphism:Enables a single interface or method to behave differently based on the context.
+
+Types:
+
+Compile-time Polymorphism (Method Overloading).
+
+Run-time Polymorphism (Method Overriding).
+class Shape {
+    void draw() {
+        System.out.println("Drawing a shape.");
+    }
+}
+
+class Circle extends Shape {
+    void draw() {
+        System.out.println("Drawing a circle.");
+    }
+}
+Shape shape = new Circle();
+shape.draw(); 
+
+
+e.In Java, throw and throws are keywords used in exception handling, but they serve different purposes. Let's break it down:
+
+throw
+ Used to explicitly throw an exception in your program.
+
+ Occurs within a method or a block of code where an exception needs to be triggered.
+
+ You create an instance of an exception class and throw it.
+
+throws:
+
+ Declares exceptions that a method might throw, alerting the caller of the method about potential checked exceptions.
+ Used in the method signature.
+ Follows the method declaration.
+
+
+34.a. equals() and ==
+
+Here equals() :is used to compare to objects when there are two objects which are reffering to the same memory location then to compare this can be used.
+this method return boolean vaue
+boolean equals(){
+
+return false;
+}
+if the objects are pointing to the same memory then it will return true otherwise false;
+
+== : this is to compare two variables.This is equality operator where it is being used for comparing two vlaues.
+int a=2;
+int b=2;
+if we check it by using == like a==b
+the it will return true because both are same.Regardless of memory location these will return true if the values are same because these are stored in constant pool.
+
+b.final:This is keyword in java which is used to declare variable or a class as final .
+Use of this keyword is if we declare a any class or variable as final then we can modify it again.
+And also if we make class final then anty class cant extend it.
+
+
+finally Used in exception handling to execute a block of code no matter what—whether an exception is thrown or not.
+Common Use: To perform cleanup actions like closing resources (e.g., files, database connections).
+Appears after the try and catch blocks in a try-catch-finally construct.
+
+finalize:A method used to perform cleanup operations before an object is garbage collected.
+ Defined in the Object class, and you can override it in your class to specify custom cleanup logic.
+The finalize method has been deprecated in recent versions of Java  because it can lead to unpredictable behavior and performance issues.
+
+d.Checked Exceptions: These are exceptions that are checked at compile time. The compiler ensures that these exceptions are either handled using a try-catch block or declared in the method signature using the throws keyword.
+
+Examples:
+
+IOException
+
+SQLException
+
+FileNotFoundException
+
+Key Points:
+The program will not compile if a checked exception is not handled properly.
+Used for conditions that are predictable but outside the control of the program.
+
+Unchecked Exceptions:These are exceptions that are not checked at compile time. They occur during runtime, and the compiler does not require them to be explicitly handled or declared.
+
+Examples:
+
+ArithmeticException
+
+NullPointerException
+
+ArrayIndexOutOfBoundsException
+
+IllegalArgumentException
+
+Key Points:
+
+The program will compile even if the exceptions are not handled.
+
+Usually indicates programming bugs, such as logic errors or improper use of APIs.
+
+
+e.Methods: A method defines a block of code that performs a specific task or operation when called. It's reusable and can be invoked multiple times.
+
+Key Features:
+
+Methods can have return types (e.g., void, int, String).
+
+Can be explicitly called in a program.
+
+Can accept input parameters.
+
+Defined with a name, return type, and body.
+Ex:
+public void say(){
+}
+
+Constructor:Purpose: A constructor initializes objects when an instance of a class is created. It sets up the object's initial state (e.g., assigning values to variables).
+
+Key Features:
+
+Constructors do not have a return type (not even void).
+
+Automatically invoked when an object is created using new.
+
+Can accept parameters for initialization.
+
+The name of the constructor is the same as the class name.
+Ex:name AS class name
+public Customer(){
+}
+
+f.In Java, TreeMap, HashMap, and LinkedHashMap are all implementations of the Map interface in the Java Collections Framework. However, they differ in how they store and access data. Here's a comparison:
+
+1. TreeMap
+Characteristics:
+
+Stores key-value pairs in sorted order based on the natural ordering of the keys or a custom comparator.
+
+Implements the NavigableMap interface.
+
+Slower than HashMap and LinkedHashMap due to sorting overhead.
+
+
+2. HashMap:Characteristics:
+
+Stores key-value pairs with no guaranteed order (insertion or otherwise).
+
+Implements the Map interface and is backed by a hash table.
+
+Offers the best performance for most general-purpose use cases.
+
+Key Points:
+
+Allows one null key and multiple null values.
+
+Non-synchronized (not thread-safe), but Collections.synchronizedMap() can make it synchronized.
+
+use:When you need a fast unordered map.
+
+
+3.LinkedHashMap
+Characteristics:
+
+Maintains the insertion order of key-value pairs.
+
+Slightly slower than HashMap due to order maintenance overhead.
+
+Implements the Map interface and extends HashMap.
+
+Key Points:
+
+Allows one null key and multiple null values.
+
+Useful for preserving iteration order.
+
+Use Case: When you need a map that remembers the order of elements.
+
+g.The difference between @EnableWebMvc and a custom configuration implementing WebMvcConfigurer lies in their purpose and usage within a Spring application. Let me explain:
+
+1. @EnableWebMvc
+Purpose:
+
+This annotation is used to enable Spring MVC configuration, equivalent to the XML-based <mvc:annotation-driven />.
+
+It sets up default Spring MVC features such as @Controller handling, @RequestMapping, and support for MessageConverters.
+
+When you add @EnableWebMvc, Spring provides default configurations for:
+
+JSON/XML conversion using HttpMessageConverters.
+
+
+@Configuaration:
+
+Java configuration replaces the need for XML by allowing you to define bean configurations directly in Java classes.
+
+Key Annotation:
+
+@Configuration: Indicates that a class declares one or more @Bean methods that will be processed by the Spring container to generate bean definitions.
+Type safety and IDE support.
+
+Easier to manage and maintain compared to XML configuration.
+
+Allows for conditional or dynamic bean definitions using Java logic.
+
+35.syntax error.
+
+36.Output will be:10,15  and
+10,15
+
+37.Message: "Hello from outer" will be displayed.
+
+38.False will be returned.
+
+39."Java Programming"
+
+40.True
+
+41.3,4
+
+42.99
+
+43.Yes, by using @Component annotation on the top of the class the spring will register it as spring bean.
+
+44.
+Immutablity:Constructor injection allows dependencies to be final and immutable after the object is created, ensuring that the injected dependencies cannot be changed once the object is constructed.
+Easier to Test:
+Constructor injection allows dependencies to be explicitly passed in during object creation, making it easier to mock or substitute dependencies in unit tests.
+Field injection requires the use of reflection or dependency injection frameworks (like Spring) to inject dependencies, which can complicate testing and require more setup.
+Clearer Dependencies:
+With constructor injection, all required dependencies are clearly listed in the constructor signature. This makes it immediately clear what dependencies the class needs when you look at its constructor.
+Field injection hides the dependencies within the class, making it harder to understand what dependencies the class has just by looking at its fields.
+Prevents Null Dependencies:
+
+45.If you have two beans with the same name in a Spring application, it can lead to ambiguity when Spring tries to inject the beans into components. This is because Spring cannot determine which bean to inject, and it will throw an exception unless resolved. 
+
+If there are two beans of the same name and Spring is trying to inject them into a class, it will result in a NoUniqueBeanDefinitionException or UnsatisfiedDependencyException. This error occurs because Spring can't determine which bean to inject.
+
+46.Hello! will be displayed
+
+47.
+
+@RestController
+public class UserController {
+
+    
+    private static final User[] USERS = {
+        new User("poornimapatil@gmail.com", "poornima", 30),
+        new User("punitpatil@gmail.com", "punit", 25)
+    };
+
+    @GetMapping("/users/{email}")
+    public User getUserByEmail(@PathVariable String email) {
+        for (User user : USERS) {
+            if (user.getEmail().equalsIgnoreCase(email)) {
+                return user;
+            }
+        }
+        
+        return null;  
+    }
+}
+
+
+49.O(n) in worst case scenario for HashMap.get(key).
+
+50. 
+public class NumberPattern {
+    public static void main(String[] args) {
+        int n = 5;  
+        
+       
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= i; j++) {
+                System.out.print(j);
+            }
+            System.out.println();  
+        }
+        
+       
+        for (int i = n - 1; i >= 1; i--) {
+            for (int j = 1; j <= i; j++) {
+                System.out.print(j);
+            }
+            System.out.println();  
+        }
+    }
+}
+
+
+51.public class SubstringExample {
+    public static void main(String[] args) {
+        String str = "abc";
+        int length = str.length();
+    
+        for (int i = 0; i < length; i++) {
+            
+            for (int j = i + 1; j <= length; j++) {
+            
+                String result = "";
+                for (int k = i; k < j; k++) {
+                    
+                    result += str.charAt(k);
+                }
+                System.out.println(result);
+            }
+        }
+    }
+}
+
+
+52.
+
+public class HashMapFirstLast {
+    public static void main(String[] args) {
+       
+        HashMap<Integer, String> map = new HashMap<>();
+        map.put(1, "One");
+        map.put(2, "Two");
+        map.put(3, "Three");
+        map.put(4, "Four");
+        map.put(5, "Five");
+
+      
+        Map.Entry<Integer, String> firstEntry = map.entrySet().iterator().next();
+
+      
+        Map.Entry<Integer, String> lastEntry = null;
+        for (Map.Entry<Integer, String> entry : map.entrySet()) {
+            lastEntry = entry;  
+        }
+
+        
+        System.out.println("First Entry: " + firstEntry.getKey() + " = " + firstEntry.getValue());
+        System.out.println("Last Entry: " + lastEntry.getKey() + " = " + lastEntry.getValue());
+    }
+}
+
+
+
+54.In Spring Framework, DispatcherServlet is a core component that acts as the front controller for handling HTTP requests and forwarding them to appropriate handlers (typically controllers). It's a part of the Spring MVC (Model-View-Controller) module and serves as the main entry point for all requests in a Spring-based web application.
+Features of DispatcherServlet:
+Front Controller: It handles all incoming requests and delegates them to various controllers.
+Request Mapping: It uses handler mappings to forward the request to the appropriate controller.
+
+
+
+
+55.To return view in spring we will use syntax like this
+public String onEmail(){
+return "Serach.jsp";
+}
+
+56.Inversion of Control (IoC)
+Inversion of Control is a design principle where the control of objects or portions of a program is transferred to a container or framework.
+
+In the context of Spring, IoC means that Spring manages the creation, configuration, and lifecycle of objects  rather than the developer manually creating and managing these objects.
+
+In simple terms, IoC is the idea that Spring takes control of object creation and manages their lifecycle.
+
+2. Dependency Injection (DI)
+Dependency Injection (DI) is a pattern used to implement IoC. It allows you to inject dependencies  into a class, rather than the class creating them itself.
+
+With DI, Spring automatically provides the required dependencies to a class when it is instantiated.
+
+There are three main types of Dependency Injection in Spring:
+
+Constructor-based DI: Dependencies are injected through the constructor.
+
+Setter-based DI: Dependencies are injected via setter methods.
+
+Field-based DI: Dependencies are injected directly into fields (using @Autowired annotation).
+
+3. @Configuration and @Bean Annotations
+These are key Spring annotations used for Java-based configuration in Spring.
+
+@Configuration Annotation
+The @Configuration annotation is used to mark a class as a source of bean definitions. This means that the class will contain methods annotated with @Bean to define the beans that will be managed by the Spring IoC container.
+
+It is typically used to replace the XML-based configuration (applicationContext.xml).
+
+
+57.public class PrintNumbers {
+    
+    public static void printNumbers(int n) {
+        if (n <= 100) {  
+            System.out.println(n);
+            printNumbers(n + 1);  
+        }
+    }
+
+    public static void main(String[] args) {
+        printNumbers(1);  
+    }
+}
+
+
+59.<c:ForEach( var list:listEntity){
+${list.name}
+}
+/c:ForEach>
+
+60.<!DOCTYPE html>
+<html lang="en">
+<head>
+   
+    <title>Change Background Color</title>
+</head>
+<body>
+    <h1>Click the button to change background color</h1>
+
+
+    <button onclick="changeBackgroundColor()">Change Background Color</button>
+
+    <script>
+        
+        function changeBackgroundColor() {
+           
+            document.body.style.backgroundColor = "lightblue";
+        }
+    </script>
+</body>
+</html>
+
+
+
